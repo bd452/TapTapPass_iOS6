@@ -14,4 +14,7 @@ Planned Features:
 
 	•	Support for PatternUnlock, Stride, and similar
 	•	Addition of a preference pane for configuration (in progress)
-	•	Allow for the reversal of the lock function (activator action locks without, rather than with a passcode)
+
+Recently Added:
+
+	•	Added option to reverse the function (activator action locks without, rather than with a passcode)
