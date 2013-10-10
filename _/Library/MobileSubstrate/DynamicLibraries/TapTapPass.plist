@@ -1,0 +1,8 @@
+{
+	Filter = {
+		Bundles = (
+			"com.zmaster.androidlockxt",
+			"com.apple.springboard",
+		);
+	};
+}

@@ -1,0 +1,9 @@
+Package: com.tigers1m.taptappass
+Name: TapTapPass
+Depends: mobilesubstrate, libactivator
+Version: 1.2.0
+Architecture: iphoneos-arm
+Description: Gesture-Based Passcode Toggle
+Maintainer: tigers1m
+Author: bd452
+Section: Tweaks
