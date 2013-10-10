@@ -3,7 +3,7 @@ TapTapPass
 
 TapTapPass is a tweak to manage your passcode lock. Works through activator. 
 
-It's extremely messy at the moment, but I'm working on cleaning up the code. A lot.
+It's extremely messy at the moment, as it's in the stage between releases, and it may not work well, or even at all. However, I'm actively working on cleaning up the code. A lot.
 
 If you have any ideas, feel free to send me an email at bryce.dougherty@gmail.com
 
