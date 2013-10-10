@@ -3,8 +3,8 @@
 	bundle = ttp_settings;
 	cell = PSLinkCell;
 	detail = ttp_settingsListController;
-	icon = ttp_settings.png;
+	icon = ttp_settings_icon.png;
 	isController = 1;
-	label = ttp_settings;
+	label = TapTapPass;
     };
 }

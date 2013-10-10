@@ -3,7 +3,8 @@
 #import <AVFoundation/AVFoundation.h>
 BOOL passActive = YES;
 BOOL Unlocking = NO;
-BOOL ALXT_Enabled = NO;
+//BOOL ALXT_Enabled = NO;
+BOOL reversed;
 
 @interface SBAwayController
 - (BOOL)isLocked;
@@ -14,13 +15,38 @@ BOOL ALXT_Enabled = NO;
 - (BOOL)isPasswordProtected;
 @end
 
-@interface AndroidLockView
+//AndroidLockXT
+
+/*@interface AndroidLockView
 - (BOOL)isPatternRequired;
 @end
+*/
 
-@interface UIApplication (Giraffe)
-- (BOOL)isActuallyAGiraffe;
+@interface SBUIController
+- (void)lockFromSource:(int)source;
 @end
+
+%hook SBUIController
+
+- (void)lockFromSource:(int)source {
+    NSDictionary *prefs=[[NSDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.tigers1m.taptappass.plist"];
+    
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+    if ([[prefs objectForKey:@"reversed"] boolValue]){
+        reversed = YES;
+    }
+    else {
+        reversed = NO;
+    }
+    
+    [prefs release];
+    [pool drain];
+    
+    %orig;
+}
+%end
+
 
 %hook SBAwayController
 
@@ -52,25 +78,35 @@ BOOL ALXT_Enabled = NO;
 
 %hook SBDeviceLockController
 -(BOOL)isPasswordProtected {
+    BOOL passEnabled;
     
+    if (reversed){
+        passEnabled = !passActive;
+    }
+    else {
+        passEnabled = passActive;
+    }
+    
+    return passEnabled;
+    //Used for AndroidLockXT compatability - removed temporarily.
+    /*
     BOOL axt_Override;
-    NSString* alxtPrefs = @"/var/mobile/Library/Preferences/com.zmaster.AndroidLock.plist";
-    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:alxtPrefs];
+    BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/com.zmaster.AndroidLock.plist"];
     
     if(fileExists) {
     
-        NSDictionary *prefs=[[NSDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.zmaster.AndroidLock.plist"];
+        NSDictionary *alxt_prefs=[[NSDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.zmaster.AndroidLock.plist"];
     
         NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
         
-            if ([[prefs objectForKey:@"Enable"] boolValue]){
+            if ([[alxt_prefs objectForKey:@"Enable"] boolValue]){
                 axt_Override = NO;
                 }
             else {
                 axt_Override = YES;
             }
 
-        [prefs release];
+        [alxt_prefs release];
         [pool drain];
     }
     if(!fileExists) {
@@ -79,14 +115,17 @@ BOOL ALXT_Enabled = NO;
  
 
         return axt_Override;
+     */
 }
 %end
 
+/*
 %hook AndroidLockView
 -(BOOL)isPatternRequired {
     return passActive;
 }
 %end
+*/
 
 
  
